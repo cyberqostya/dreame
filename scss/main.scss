@@ -220,6 +220,10 @@ $custom-grey: #f7f7f7;
   display: flex;
   flex-wrap: wrap;
 
+  &__button-link {
+    text-decoration: none;
+  }
+
   &__cleaner-button {
     width: 50%;
     min-height: 275px;
@@ -308,6 +312,12 @@ $custom-grey: #f7f7f7;
     // &::-webkit-scrollbar { width: 30px }
   }
 }
+@media screen and (max-width: 612px) {
+  .models {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
 .card {
   position: relative;
@@ -381,41 +391,8 @@ $custom-grey: #f7f7f7;
     padding: 45px 32px 0;
   }
 
-  &__data-close {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-
-    width: 18px;
-    height: 18px;
-    background: center / contain url(../img/close-icon.svg) no-repeat;
-
-    border: none;
-    cursor: pointer;
-    transition: opacity $animation-speed;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  &__data-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
   &__data-title {
     @include font-stylesizing(39px, 42px);
-    max-width: 230px;
-  }
-
-  &__data-price {
-    @include font-stylesizing(34px, 37px);
-
-    &_pre {
-      @include font-stylesizing(26px, 28px, 400);
-    }
   }
 
   &__data-buttons-container {
@@ -478,23 +455,14 @@ $custom-grey: #f7f7f7;
     }
   }
 }
-@media screen and (max-width: 545px) {
+@media screen and (max-width: 767px) {
   .card {
-    width: 70%;
-    min-width: 300px;
+    width: 50vw;
+    min-width: 306px;
 
     &__data-container {
       padding: 30px 15px 0;
       width: 100%;
-    }
-
-    &__data-main {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    &__data-price {
-      margin-top: 10px;
     }
 
     &__data-row-advantages {

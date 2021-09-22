@@ -187,6 +187,9 @@ html {
   display: flex;
   flex-wrap: wrap;
 }
+.choice__button-link {
+  text-decoration: none;
+}
 .choice__cleaner-button {
   width: 50%;
   min-height: 275px;
@@ -262,6 +265,12 @@ html {
   overflow-x: scroll;
 }
 
+@media screen and (max-width: 612px) {
+  .models {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 .card {
   position: relative;
   flex-shrink: 0;
@@ -324,39 +333,9 @@ html {
   width: 100%;
   padding: 45px 32px 0;
 }
-.card__data-close {
-  position: absolute;
-  top: 32px;
-  right: 32px;
-  width: 18px;
-  height: 18px;
-  background: center/contain url(../img/close-icon.svg) no-repeat;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.4s;
-}
-.card__data-close:hover {
-  opacity: 0.7;
-}
-.card__data-main {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
 .card__data-title {
   font-size: 39px;
   line-height: 42px;
-  font-weight: 400;
-  max-width: 230px;
-}
-.card__data-price {
-  font-size: 34px;
-  line-height: 37px;
-  font-weight: 400;
-}
-.card__data-price_pre {
-  font-size: 26px;
-  line-height: 28px;
   font-weight: 400;
 }
 .card__data-buttons-container {
@@ -415,21 +394,14 @@ html {
   font-weight: 500;
 }
 
-@media screen and (max-width: 545px) {
+@media screen and (max-width: 767px) {
   .card {
-    width: 70%;
-    min-width: 300px;
+    width: 50vw;
+    min-width: 306px;
   }
   .card__data-container {
     padding: 30px 15px 0;
     width: 100%;
-  }
-  .card__data-main {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .card__data-price {
-    margin-top: 10px;
   }
   .card__data-row-advantages {
     grid-template-columns: repeat(auto-fill, 50%);
