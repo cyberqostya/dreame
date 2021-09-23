@@ -131,9 +131,25 @@ $custom-grey: #f7f7f7;
     }
 
     &__nav {
-      position: fixed;
+      position: absolute;
       top: 0;
       right: -100%;
+      transition: right $animation-speed;
+      background-color: #fff;
+      width: 50%;
+
+
+      &._active {
+        right: 0;
+      }
+    }
+
+    &__nav-list {
+      flex-direction: column;
+    }
+
+    &__nav-list-item {
+      @include font-stylesizing(25px, 50px);
     }
 
     &__burger {
@@ -222,10 +238,12 @@ $custom-grey: #f7f7f7;
 
   &__button-link {
     text-decoration: none;
+    width: 50%;
+    display: inline-flex;
   }
 
   &__cleaner-button {
-    width: 50%;
+    width: 100%;
     min-height: 275px;
 
     display: flex;
@@ -284,11 +302,13 @@ $custom-grey: #f7f7f7;
     }
   }
 }
+@media screen and (max-width: 630px) { .choice__button-link { width: 100% } }
 
 .models {
   @extend %block-styles;
-  padding-top: 90px;
-  padding-bottom: 90px;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 0;
   overflow: hidden;
 
   display: flex;
@@ -296,21 +316,46 @@ $custom-grey: #f7f7f7;
   justify-content: center;
 
   background-color: #fff;
+  transition: height $animation-speed;
+
+  &._active {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
 
   &__title {
     @include font-stylesizing(38px, 53px, 700);
     text-align: center;
+    margin-bottom: 40px;
   }
 
   &__slider-road {
-    margin-top: 40px;
-
     display: flex;
     grid-column-gap: 30px;
-    overflow-x: scroll;
+    overflow-x: overlay;
+    padding-bottom: 40px;
 
-    // &::-webkit-scrollbar { width: 30px }
+    animation: sliderRoadAppear $animation-speed ease forwards;
+
+    &._deactive {
+      display: none;
+      animation: sliderRoadDisappear $animation-speed ease forwards;
+    }
+
+    &::-webkit-scrollbar { width: 3px; height: 3px; }
+    &::-webkit-scrollbar-thumb { background-color: #000 }
+    &::-webkit-scrollbar-track { background-color: #e0e0e0 }
   }
+}
+@keyframes sliderRoadAppear {
+  0% { opacity: 0; display: none }
+  1% { opacity: 0; display: flex }
+  100% { opacity: 1; display: flex }
+}
+@keyframes sliderRoadDisappear {
+  0% { opacity: 1; display: flex }
+  99% { opacity: 0; display: flex }
+  100% { opacity: 0; display: none }
 }
 @media screen and (max-width: 612px) {
   .models {
@@ -489,23 +534,48 @@ $custom-grey: #f7f7f7;
 
   color: #fff;
 
-  background: left / cover url(../img/about-background.jpg) no-repeat;
+  background: 70% / cover url(../img/about-background.jpg) no-repeat;
+
+  &__vertical-slider { 
+    max-height: 530px; 
+    max-width: 480px; 
+    overflow-y: scroll;
+    position: relative;
+
+    &::-webkit-scrollbar { width: 0px }
+
+    &::before, &::after {
+      content: '';
+      display: block;
+      position: sticky;
+      width: 100%;
+      height: 100px;
+      pointer-events: none;
+
+    }
+    &::before { top: 0; background: linear-gradient(to bottom, #94999f, #94999f00) }
+    &::after { bottom: 0; background: linear-gradient(to top, #94999f, #94999f00) }
+  }
 
   &__title {
     @include font-stylesizing(60px, 83px, 700);
+
+    &:not(:first-of-type) { margin-top: 30px; }
   }
 
   &__text {
     margin-top: 20px;
 
-    max-width: 480px;
     @include font-stylesizing(16px, 22px);
   }
 }
+@media screen and (max-width: 1650px) { .about { background-position: 50% } }
+@media screen and (max-width: 1345px) { .about { background-position: 20% } }
 @media screen and (max-width: 600px) {
   .about {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-position: left;
 
     &__title {
       @include font-stylesizing(39px, 42px);

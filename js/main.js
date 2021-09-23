@@ -1,16 +1,117 @@
-class Slider {
+class Header {
   constructor(root) {
     this.root = root;
+    this.navBlock = root.querySelector('.header__nav');
+    this.burgerButton = root.querySelector('.header__burger');
 
-    this.init();
+    this.isActive = false;
+
+    this._addEventListenerOnBurger();
   }
 
-  init() {
+  _changeIsActive() {
+    this.isActive = !this.isActive;
 
+    this.isActive ? 
+      this.navBlock.classList.add('_active') :
+      this.navBlock.classList.remove('_active');
   }
 
-  addSliderWidth() {
-    
+  _addEventListenerOnBurger() {
+    this.burgerButton.addEventListener('click', () => {
+      this._changeIsActive();
+    });
+  }
+}
+
+
+class ChoiceBlock {
+  constructor(root) {
+    this.root = root;
+    this.buttonWireless = root.querySelector('.choice__cleaner-button_wireless');
+    this.buttonRobot = root.querySelector('.choice__cleaner-button_robot');
+
+    this.state = {
+      isWirelessActive: false,
+      isRobotActive: false
+    };
+  }
+
+  changeWirelessState() {
+    this.state = {
+      isWirelessActive: true,
+      isRobotActive: false
+    };
+  }
+
+  changeRobotState() {
+    this.state = {
+      isWirelessActive: false,
+      isRobotActive: true
+    };
+  }
+
+  getState() {
+    return this.state;
+  }
+}
+
+
+
+class ModelsBlock {
+  constructor(root) {
+    this.root = root;
+    this.rootPaddingTop = 90; // CSS
+    this.rootPaddingBottom = 90; // CSS
+    this.title = this.root.querySelector('.models__title');
+    this.titleHeight = this.title.clientHeight;
+    this.titleMarginBottom = 40; // CSS
+
+    this.rootHeightWithoutSlider = this.rootPaddingTop + this.rootPaddingBottom + this.titleHeight + this.titleMarginBottom;
+
+    this.isActive = false;
+  }
+
+  active(height) {
+    this.isActive = true;
+    this.root.classList.add('_active');
+    this.root.style.height = height + this.rootHeightWithoutSlider + 'px';
+  }
+
+  getState() {
+    return this.isActive;
+  }
+}
+
+
+
+class Slider { // Анимация через CSS
+  constructor(root) {
+    this.root = root;
+    this.rootHeight;
+
+    this.isActive = false;
+  }
+
+  setActivity(activity) {
+    this.isActive = activity;
+
+    this.isActive ? 
+      this.root.classList.remove('_deactive') :
+      this.root.classList.add('_deactive');
+  }
+
+  _hideSlider() {
+    this.root.classList.add('_deactive')
+  }
+
+  getHeight() {
+    return this.rootHeight;
+  }
+
+  setHeight(height) {
+    this.rootHeight = height;
+    this._hideSlider();
   }
 }
 
@@ -63,7 +164,7 @@ class Card {
   _getTemplate() {
     
     function _getImage(image) {
-      return `<img src="${image.link}" alt="cleaner" class="card__image card__image_${image.objectFit}">`;
+      return `<img data-src="${image.link}" alt="cleaner" class="card__image card__image_${image.objectFit}">`;
     }
 
     function _getAdvantages(advantage) {
@@ -170,17 +271,52 @@ class Card {
 
 
 
+const headerBlock = new Header(document.querySelector('.header'));
+const choiceBlock = new ChoiceBlock(document.querySelector('.choice'));
+const modelsBlock = new ModelsBlock(document.querySelector('.models'));
+const wirelessSlider = new Slider(document.querySelector('.models__slider-road_wireless'));
+const robotSlider = new Slider(document.querySelector('.models__slider-road_robot'));
 
-const wirelessSlider = new Slider(document.querySelectorAll('.models__slider-road')[0]);
-const robotSlider = new Slider(document.querySelectorAll('.models__slider-road')[1]);
 
+// Создание карточек
+// добавление их в контейнеры
+// и подвязка внутренних методов карточек с window.resize
 const wirelessCleanersArray = [];
 const robotCleanersArray = [];
 cleaners.wireless.forEach((item) => { wirelessCleanersArray.push( new Card(item, wirelessSlider.root) ) }); 
 cleaners.robot.forEach((item) => { robotCleanersArray.push( new Card(item, robotSlider.root) ) }); 
 
-
 window.addEventListener('resize', () => {
   wirelessCleanersArray.forEach((item) => { item.functionsDepenOnWindowSize() });
   robotCleanersArray.forEach((item) => { item.functionsDepenOnWindowSize() });
+});
+
+
+// После добавления карточек задаем высоту слайдеров для анимации раскрытия блока "Все модели"
+wirelessSlider.setHeight( wirelessSlider.root.scrollHeight );
+robotSlider.setHeight( robotSlider.root.scrollHeight );
+
+
+// При клике на кнопку выбора модели меняется стейт
+choiceBlock.root.addEventListener('click', (event) => {
+  const button = event.target.closest(`.${ choiceBlock.buttonWireless.classList[0] }`);
+  if(button) { // Нажали на кнопку?
+
+    if( button.classList.contains(choiceBlock.buttonWireless.classList[1]) ) { // Нажали на беспроводные?
+
+      choiceBlock.changeWirelessState(); // Узнали какой стейт активный для передачи его
+      modelsBlock.active( wirelessSlider.getHeight() ); // Отобразили блок "Все модели"
+      wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
+      robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
+
+    } else if( button.classList.contains(choiceBlock.buttonRobot.classList[1]) ) { // Нажали на роботы?
+
+      choiceBlock.changeRobotState(); // Узнали какой стейт активный для передачи его
+      modelsBlock.active( robotSlider.getHeight() ); // Отобразили блок "Все модели"
+      wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
+      robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
+
+    }
+
+  }
 });
