@@ -464,6 +464,7 @@ $custom-grey: #f7f7f7;
 
   &__data-title {
     @include font-stylesizing(39px, 42px);
+    max-width: 94%;
   }
 
   &__data-buttons-container {

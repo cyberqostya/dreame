@@ -346,7 +346,8 @@ html {
   .card__data-title {
     font-size: 39px;
     line-height: 42px;
-    font-weight: 400; }
+    font-weight: 400;
+    max-width: 94%; }
   .card__data-buttons-container {
     margin-top: 25px;
     margin-bottom: 25px;

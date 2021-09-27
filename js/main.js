@@ -112,6 +112,7 @@ class Slider { // Анимация через CSS
     this.rootHeight;
 
     this.isActive = false;
+    this.PADDING_BOTTOM = 40;
 
     this.initialPosition;
     this._addSwiping();
@@ -125,7 +126,7 @@ class Slider { // Анимация через CSS
       this.root.classList.add('_deactive');
   }
 
-  _hideSlider() {
+  hideSlider() {
     this.root.classList.add('_deactive')
   }
 
@@ -133,9 +134,10 @@ class Slider { // Анимация через CSS
     return this.rootHeight;
   }
 
-  setHeight(height) {
-    this.rootHeight = height;
-    this._hideSlider();
+  setHeight(height, сonsideringPadding = true) {
+    сonsideringPadding ? 
+      this.rootHeight = height :
+      this.rootHeight = height + this.PADDING_BOTTOM;
   }
 
   // Свайпинг карточек в слайдере без помощт полосы прокрутки
@@ -174,6 +176,8 @@ class Card {
 
     this.card = document.querySelectorAll('.card');
 
+    this.MARGIN = 7;
+
 
     // Узлы DOM
     this.root = this.card[this.card.length - 1];
@@ -190,11 +194,11 @@ class Card {
 
 
     // Стейты
-    this.isOpen = false; // Стейт раскрыта ли карточка
+    this.isOpen = true; // Стейт раскрыта ли карточка
     this.imagesCounter = 1;
 
     // Высоты для анимации раскрытия карточки
-    this.rootHeightOpened = this.root.clientHeight; console.log(this.rootHeightOpened)
+    this.rootHeightOpened = this.root.clientHeight;
     this.dataCircleAdvantagesHeight = this.dataCircleAdvantages.clientHeight;
       this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM = 25; // CSS
       this.dataCircleAdvantagesInvisibleHeight = this.dataCircleAdvantages.children.length > 3 ? this._getHeightOfSecondCirclesRow() : -this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM;
@@ -205,7 +209,7 @@ class Card {
     // Инициализация
     this._setInitialPositionForImages(); // Изменить!!!!!!
     this._setEventListenerOnImagesControllers();
-    this._setEventListenerOnButtonsContainer();
+    this.changeIsOpen(); // закрыть все карточки
   } // ---------------------------------------------------
 
   // Из-за того, что преимущества с кружочками имеют разную высоту
@@ -218,6 +222,10 @@ class Card {
       }
     });
     return theHighestHeight;
+  }
+
+  getHeight() {
+    return this.root.scrollHeight + this.MARGIN * 2;
   }
 
 
@@ -330,17 +338,6 @@ class Card {
       this.root.style.height = this.rootHeightOpened + 'px' :
       this.root.style.height = this.rootHeightClosed + 'px';
   }
-
-  _setEventListenerOnButtonsContainer() {
-    this.buttonsContainer.addEventListener('click', (event) => {
-      const target = event.target.closest('.card__data-button');
-      if(target === this.buyButton) { // Нажали на КУПИТЬ
-
-      } else if(target === this.characteristicsButton) { // Нажали на Характеристики
-        this.changeIsOpen();
-      }
-    });
-  }
 }
 
 
@@ -354,16 +351,17 @@ const robotSlider = new Slider(document.querySelector('.models__slider-road_robo
 
 // Создание карточек
 // добавление их в контейнеры
-// и подвязка внутренних методов карточек с window.resize
 const wirelessCleanersArray = [];
 const robotCleanersArray = [];
-cleaners.wireless.forEach((item) => { wirelessCleanersArray.push( new Card(item, wirelessSlider.root) ) }); 
+cleaners.wireless.forEach((item) => { wirelessCleanersArray.push( new Card(item, wirelessSlider.root) ) }); // Взято из файла cleanersData.js
 cleaners.robot.forEach((item) => { robotCleanersArray.push( new Card(item, robotSlider.root) ) }); 
 
 
 // После добавления карточек задаем высоту слайдеров для анимации раскрытия блока "Все модели"
 wirelessSlider.setHeight( wirelessSlider.root.scrollHeight );
+  wirelessSlider.hideSlider();
 robotSlider.setHeight( robotSlider.root.scrollHeight );
+  robotSlider.hideSlider();
 
 
 // При клике на кнопку выбора модели меняется стейт
@@ -388,4 +386,43 @@ choiceBlock.root.addEventListener('click', (event) => {
     }
 
   }
+});
+
+
+// При клике на кнопку в карточке
+wirelessCleanersArray.forEach((item) => {
+  item.buttonsContainer.addEventListener('click', (event) => {
+    
+    const target = event.target.closest('.card__data-button');
+    if(target === item.buyButton) { // Нажали на КУПИТЬ
+
+    } else if(target === item.characteristicsButton) { // Нажали на Характеристики
+      item.changeIsOpen();
+      if( item.getHeight() > wirelessSlider.getHeight() ) { //  Меняем высоту слайдера при раскрытии карточки которая больше
+        wirelessSlider.setHeight( item.getHeight(), false )
+        modelsBlock.active( wirelessSlider.getHeight() );
+      } 
+      if( wirelessCleanersArray.every((item) => { item.isOpen === false }) ) { // Если все карточки закрыты
+        wirelessSlider.setHeight( wirelessSlider.root.scrollHeight );
+        modelsBlock.active( wirelessSlider.getHeight() );
+      }
+    }
+
+  });
+});
+robotCleanersArray.forEach((item) => {
+  item.buttonsContainer.addEventListener('click', (event) => {
+    
+    const target = event.target.closest('.card__data-button');
+    if(target === item.buyButton) { // Нажали на КУПИТЬ
+
+    } else if(target === item.characteristicsButton) { // Нажали на Характеристики
+      item.changeIsOpen();
+      if( item.getHeight() > robotSlider.getHeight() ) { //  Меняем высоту слайдера при раскрытии карточки которая больше
+        robotSlider.setHeight( item.getHeight(), false )
+        modelsBlock.active( robotSlider.getHeight() );
+      }
+    }
+
+  });
 });
