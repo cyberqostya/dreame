@@ -1,12 +1,30 @@
+window.location.hash = ''; // Убирает якорь из адресной строки при перезагрузке страницы
+
+class Popup {
+  constructor(root) {
+    this.root = root;
+    this.popupContainer = this.root.querySelector('.popup__window');
+  }
+
+  createLink(link, shop) {
+    const newLink = `<a href="${link}" target="__blank" class="popup__link popup__link_${shop}"></a>`;
+    this.popupContainer.insertAdjacentHTML('beforeend', link);
+  }
+
+
+}
+
+
 class Header {
   constructor(root) {
     this.root = root;
     this.navBlock = root.querySelector('.header__nav');
     this.burgerButton = root.querySelector('.header__burger');
+    this.burgerCloseButton = root.querySelector('.header__burger-close');
 
     this.isActive = false;
 
-    this._addEventListenerOnBurger();
+    this._addEventListeners();
   }
 
   _changeIsActive() {
@@ -17,8 +35,11 @@ class Header {
       this.navBlock.classList.remove('_active');
   }
 
-  _addEventListenerOnBurger() {
+  _addEventListeners() {
     this.burgerButton.addEventListener('click', () => {
+      this._changeIsActive();
+    });
+    this.burgerCloseButton.addEventListener('click', () => {
       this._changeIsActive();
     });
   }
@@ -91,6 +112,9 @@ class Slider { // Анимация через CSS
     this.rootHeight;
 
     this.isActive = false;
+
+    this.initialPosition;
+    this._addSwiping();
   }
 
   setActivity(activity) {
@@ -112,6 +136,27 @@ class Slider { // Анимация через CSS
   setHeight(height) {
     this.rootHeight = height;
     this._hideSlider();
+  }
+
+  // Свайпинг карточек в слайдере без помощт полосы прокрутки
+  // .bind() создает новую функцию, поэтому нельзя применять для удаления обработчика событий: используем => стрелочные функции
+  _addSwiping() {
+    const mouseDownHandler = (event) => {
+      this.root.style.cursor = 'grabbing';
+      this.root.style.userSelect = 'none';
+      this.initialPosition = { left: this.root.scrollLeft, x: event.clientX };
+  
+      this.root.addEventListener('mousemove', mouseMoveHandler);
+      this.root.addEventListener('mouseup', mouseUpHandler);
+    }
+    const mouseMoveHandler = (event) => { this.root.scrollLeft = this.initialPosition.left - event.clientX + this.initialPosition.x }
+    const mouseUpHandler = (event) => {
+      this.root.removeAttribute('style');
+      this.root.removeEventListener('mousemove', mouseMoveHandler);
+      this.root.removeEventListener('mouseup', mouseUpHandler);
+    }
+
+    this.root.addEventListener('mousedown', mouseDownHandler);
   }
 }
 
@@ -137,8 +182,10 @@ class Card {
       this.imagesControllers = this.imagesContainer.querySelector('.card__images-controllers-container');
         this.imagesControllersTextBlock = this.imagesContainer.querySelector('.card__images-controllers-counter');
     this.dataContainer = this.root.querySelector('.card__data-container'); // Блок с данными карточки
-    this.buyButton = this.root.querySelector('.card__data-button_buy'); // Кнопка КУПИТЬ
-    this.allCharacteristicsButton = this.root.querySelector('.card__data-button_characteristics'); // Кнопка ВСЕ ХАРАКТЕРИСТИКИ
+    this.buttonsContainer = this.root.querySelector('.card__data-buttons-container'); // Контейнер с кнопками
+      this.buyButton = this.root.querySelector('.card__data-button_buy'); // Кнопка КУПИТЬ
+      this.characteristicsButton = this.root.querySelector('.card__data-button_characteristics'); // Кнопка ХАРАКТЕРИСТИКИ
+    this.dataCircleAdvantages = this.root.querySelector('.card__data-circle-advantages'); // Блок с преимуществами в кружочках
     this.dataRowAdvantages = this.root.querySelector('.card__data-row-advantages'); // Блок с преимуществами в строках
 
 
@@ -146,16 +193,32 @@ class Card {
     this.isOpen = false; // Стейт раскрыта ли карточка
     this.imagesCounter = 1;
 
-
-    // Константы
-    this.IMAGE_WIDTH_HEIGHT_COEFFICIENT = 1; // Высота к ширине
+    // Высоты для анимации раскрытия карточки
+    this.rootHeightOpened = this.root.clientHeight; console.log(this.rootHeightOpened)
+    this.dataCircleAdvantagesHeight = this.dataCircleAdvantages.clientHeight;
+      this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM = 25; // CSS
+      this.dataCircleAdvantagesInvisibleHeight = this.dataCircleAdvantages.children.length > 3 ? this._getHeightOfSecondCirclesRow() : -this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM;
+    this.dataRowAdvantagesHeight = this.dataRowAdvantages.clientHeight;
+    this.rootHeightClosed = this.rootHeightOpened - this.dataRowAdvantagesHeight - this.dataCircleAdvantagesInvisibleHeight; // поправка
 
 
     // Инициализация
-    this.setHeightToImageContainer();
-    this.setInitialPositionForImages();
-    this.setEventListenerOnImagesControllers();
+    this._setInitialPositionForImages(); // Изменить!!!!!!
+    this._setEventListenerOnImagesControllers();
+    this._setEventListenerOnButtonsContainer();
   } // ---------------------------------------------------
+
+  // Из-за того, что преимущества с кружочками имеют разную высоту
+  // возвращает высоту второй строчки (если преимуществ будет > 6, то переписать функцию)
+  _getHeightOfSecondCirclesRow() {
+    let theHighestHeight = 0;
+    Array.from(this.dataCircleAdvantages.children).forEach((item, index) => { 
+      if(index>2) { 
+        item.clientHeight > theHighestHeight ? theHighestHeight = item.clientHeight : ''; 
+      }
+    });
+    return theHighestHeight;
+  }
 
 
 
@@ -167,7 +230,16 @@ class Card {
       return `<img data-src="${image.link}" alt="cleaner" class="card__image card__image_${image.objectFit}">`;
     }
 
-    function _getAdvantages(advantage) {
+    function _getCircleAdvantages(advantage) {
+      return `
+        <div class="card__data-circle-advantage">
+          <img class="card__data-circle-advantage-image" src="${advantage.link}" alt="advantage">
+          <p class="card__data-circle-advantage-title">${advantage.title}</p>
+        </div>
+      `;
+    }
+
+    function _getRowAdvantages(advantage) {
       return `
         <div class="card__data-row-advantage">
           <p class="card__data-row-advantage-title">${advantage.title}</p>
@@ -177,7 +249,8 @@ class Card {
     }
 
     const stringImages = this.props.images.map((item) => { return _getImage(item) });
-    const stringAdvantages = this.props.advantages.map((item) => { return _getAdvantages(item) });
+    const stringCircleAdvantages = this.props.circleAdvantages.map((item) => { return _getCircleAdvantages(item) });
+    const stringRowAdvantages = this.props.advantages.map((item) => { return _getRowAdvantages(item) });
 
     return `
     <div class="card">
@@ -197,9 +270,14 @@ class Card {
           <button class="card__data-button card__data-button_buy">Купить</button>
           <button class="card__data-button card__data-button_characteristics">Характеристики</button>
         </div>
+        <div class="card__data-circle-advantages">
+        
+          ${stringCircleAdvantages.join(' ')}
+        
+        </div>
         <div class="card__data-row-advantages">
           
-          ${stringAdvantages.join(' ')}
+          ${stringRowAdvantages.join(' ')}
 
         </div>
       </div>
@@ -211,12 +289,6 @@ class Card {
     this.cardContainer.insertAdjacentHTML('beforeend', this.stringTemplate);
   }
   // Конец создания строковой карточки и добавление её в DOM *****
-  
-
-  // Задание высоты изображениям карточки
-  setHeightToImageContainer() {
-    this.imagesContainer.style.height = this.imagesContainer.clientWidth * this.IMAGE_WIDTH_HEIGHT_COEFFICIENT + 'px';
-  }
 
 
   // Логика переключения изображений
@@ -235,11 +307,11 @@ class Card {
     this.showImage(this.imagesCounter-1); 
     this.setControllersText();
   }
-  setInitialPositionForImages() { 
+  _setInitialPositionForImages() { 
     this.images.forEach((item, index) => { index !== 0 ? this.hideImage(index) : this.showImage(index) });
     this.setControllersText();
   }
-  setEventListenerOnImagesControllers() {
+  _setEventListenerOnImagesControllers() {
     this.imagesControllers.addEventListener('click', (event) => {
       if(event.target.closest('.card__images-controller_up')) {
         this.increaseImagesCounter.call(this);
@@ -251,21 +323,23 @@ class Card {
   // Конец логики переключения изображений
 
 
-
-  // Здесь будут все функции которые нуждаются в window.resize
-  functionsDepenOnWindowSize() {
-    this.setHeightToImageContainer();
-  }
-
-
   changeIsOpen() {
     this.isOpen = !this.isOpen;
-    this._renderOpeningCard();
+    
+    this.isOpen ?
+      this.root.style.height = this.rootHeightOpened + 'px' :
+      this.root.style.height = this.rootHeightClosed + 'px';
   }
 
+  _setEventListenerOnButtonsContainer() {
+    this.buttonsContainer.addEventListener('click', (event) => {
+      const target = event.target.closest('.card__data-button');
+      if(target === this.buyButton) { // Нажали на КУПИТЬ
 
-  _renderOpeningCard() {
-
+      } else if(target === this.characteristicsButton) { // Нажали на Характеристики
+        this.changeIsOpen();
+      }
+    });
   }
 }
 
@@ -285,11 +359,6 @@ const wirelessCleanersArray = [];
 const robotCleanersArray = [];
 cleaners.wireless.forEach((item) => { wirelessCleanersArray.push( new Card(item, wirelessSlider.root) ) }); 
 cleaners.robot.forEach((item) => { robotCleanersArray.push( new Card(item, robotSlider.root) ) }); 
-
-window.addEventListener('resize', () => {
-  wirelessCleanersArray.forEach((item) => { item.functionsDepenOnWindowSize() });
-  robotCleanersArray.forEach((item) => { item.functionsDepenOnWindowSize() });
-});
 
 
 // После добавления карточек задаем высоту слайдеров для анимации раскрытия блока "Все модели"

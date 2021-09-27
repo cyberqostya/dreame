@@ -24,6 +24,17 @@ $custom-grey: #f7f7f7;
   }
 }
 
+%header-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+%header-button__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @mixin font-stylesizing($size, $lineh, $weight: 400) {
   font-size: $size;
   line-height: $lineh;
@@ -38,7 +49,7 @@ $custom-grey: #f7f7f7;
   width: 100vw;
   background-color: #00000080;
   z-index: 10;
-  display: flex;display: none;
+  display: flex; display: none;
   align-items: center;
   justify-content: center;
 
@@ -100,19 +111,22 @@ $custom-grey: #f7f7f7;
   }
 
   &__burger {
+    @extend %header-button;
     width: 49px;
-
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-
     display: none;
   }
-
   &__burger-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    @extend %header-button__icon;
+  }
+
+  &__burger-close {
+    @extend %header-button;
+    width: 35px;
+    height: 35px;
+    display: none;
+  }
+  &__burger-close-icon {
+    @extend %header-button__icon;
   }
 }
 @media screen and (max-width: 600px) {
@@ -132,27 +146,32 @@ $custom-grey: #f7f7f7;
 
     &__nav {
       position: absolute;
-      top: 0;
-      right: -100%;
-      transition: right $animation-speed;
+      top: -212px;
+      right: 0;
+      transition: top $animation-speed;
       background-color: #fff;
-      width: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 31px 3%;
+      min-width: auto;
 
 
       &._active {
-        right: 0;
+        top: 0;
       }
     }
 
     &__nav-list {
       flex-direction: column;
+      width: auto;
     }
 
     &__nav-list-item {
       @include font-stylesizing(25px, 50px);
     }
 
-    &__burger {
+    &__burger, &__burger-close {
       display: block;
     }
   }
@@ -334,6 +353,7 @@ $custom-grey: #f7f7f7;
     grid-column-gap: 30px;
     overflow-x: overlay;
     padding-bottom: 40px;
+    cursor: grab;
 
     animation: sliderRoadAppear $animation-speed ease forwards;
 
@@ -342,7 +362,7 @@ $custom-grey: #f7f7f7;
       animation: sliderRoadDisappear $animation-speed ease forwards;
     }
 
-    &::-webkit-scrollbar { width: 3px; height: 3px; }
+    &::-webkit-scrollbar { width: 0; height: 3px; }
     &::-webkit-scrollbar-thumb { background-color: #000 }
     &::-webkit-scrollbar-track { background-color: #e0e0e0 }
   }
@@ -370,8 +390,13 @@ $custom-grey: #f7f7f7;
   margin: 7px;
   box-shadow: 0px -2px 7px rgba(0, 0, 0, 0.15);
 
+  width: 50vw;
   max-width: 500px;
+  min-width: 306px;
   height: fit-content;
+
+  transition: height $animation-speed;
+  overflow: hidden;
 
   &__images-container {
     position: relative;
@@ -379,6 +404,7 @@ $custom-grey: #f7f7f7;
     background-color: $custom-grey;
     
     width: 100%;
+    aspect-ratio: 1/1;
     // height: Задается через JS для правильного соотношения сторон
   }
 
@@ -441,7 +467,8 @@ $custom-grey: #f7f7f7;
   }
 
   &__data-buttons-container {
-    margin-top: 45px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 
     display: flex;
     justify-content: space-between;
@@ -476,7 +503,38 @@ $custom-grey: #f7f7f7;
     }
   }
 
+  &__data-circle-advantages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    column-gap: 10px;
+    row-gap: 25px;
+  }
+
+  &__data-circle-advantage {
+    width: calc(33% - 2 * 10px); // так как 3 в ряду
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    &-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    &-title {
+      margin-top: 7px;
+      @include font-stylesizing(13px, 14px);
+    }
+  }
+
+
   &__data-row-advantages {
+    padding-top: 25px;
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(auto-fit, calc(100% / 3));
@@ -502,8 +560,6 @@ $custom-grey: #f7f7f7;
 }
 @media screen and (max-width: 767px) {
   .card {
-    width: 50vw;
-    min-width: 306px;
 
     &__data-container {
       padding: 30px 15px 0;
@@ -527,7 +583,7 @@ $custom-grey: #f7f7f7;
 .about {
   @extend %block-styles;
   padding-top: 160px;
-  padding-bottom: 160px;
+  padding-bottom: 60px;
 
   display: flex;
   flex-direction: column;
@@ -537,10 +593,11 @@ $custom-grey: #f7f7f7;
   background: 70% / cover url(../img/about-background.jpg) no-repeat;
 
   &__vertical-slider { 
-    max-height: 530px; 
+    max-height: 600px; 
     max-width: 480px; 
     overflow-y: scroll;
     position: relative;
+    top: -50px;
 
     &::-webkit-scrollbar { width: 0px }
 
@@ -549,7 +606,7 @@ $custom-grey: #f7f7f7;
       display: block;
       position: sticky;
       width: 100%;
-      height: 100px;
+      height: 150px;
       pointer-events: none;
 
     }
@@ -573,9 +630,14 @@ $custom-grey: #f7f7f7;
 @media screen and (max-width: 1345px) { .about { background-position: 20% } }
 @media screen and (max-width: 600px) {
   .about {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
     background-position: left;
+
+    &__vertical-slider { 
+      top: 0; 
+      &::before, &::after { height: 80px } 
+    }
 
     &__title {
       @include font-stylesizing(39px, 42px);
