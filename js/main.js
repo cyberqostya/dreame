@@ -182,7 +182,7 @@ class Card {
     // Узлы DOM
     this.root = this.card[this.card.length - 1];
     this.imagesContainer = this.root.querySelector('.card__images-container'); // Блок с картинками карточки
-      this.images = this.imagesContainer.querySelectorAll('.card__image');
+      this.image = this.imagesContainer.querySelector('.card__image');
       this.imagesControllers = this.imagesContainer.querySelector('.card__images-controllers-container');
         this.imagesControllersTextBlock = this.imagesContainer.querySelector('.card__images-controllers-counter');
     this.dataContainer = this.root.querySelector('.card__data-container'); // Блок с данными карточки
@@ -207,7 +207,6 @@ class Card {
 
 
     // Инициализация
-    this._setInitialPositionForImages(); // Изменить!!!!!!
     this._setEventListenerOnImagesControllers();
     this.changeIsOpen(); // закрыть все карточки
   } // ---------------------------------------------------
@@ -233,10 +232,6 @@ class Card {
 
   // Создание строковой карточки и добавление её в DOM *****
   _getTemplate() {
-    
-    function _getImage(image) {
-      return `<img data-src="${image.link}" alt="cleaner" class="card__image card__image_${image.objectFit}">`;
-    }
 
     function _getCircleAdvantages(advantage) {
       return `
@@ -256,7 +251,6 @@ class Card {
       `;
     }
 
-    const stringImages = this.props.images.map((item) => { return _getImage(item) });
     const stringCircleAdvantages = this.props.circleAdvantages.map((item) => { return _getCircleAdvantages(item) });
     const stringRowAdvantages = this.props.advantages.map((item) => { return _getRowAdvantages(item) });
 
@@ -264,7 +258,7 @@ class Card {
     <div class="card">
       <div class="card__images-container">
         
-        ${stringImages.join(' ')}
+        <img src="${this.props.images[0].link}" alt="cleaner" class="card__image card__image_${this.props.images[0].objectFit}">
 
         <div class="card__images-controllers-container">
           <button class="card__images-controller card__images-controller_up"></button>
@@ -300,31 +294,27 @@ class Card {
 
 
   // Логика переключения изображений
-  hideImage(index) { this.images[index].style.opacity = 0 }
-  showImage(index) { this.images[index].style.opacity = 1 }
-  setControllersText() { this.imagesControllersTextBlock.textContent = `${this.imagesCounter}/${this.images.length}`; }
-  increaseImagesCounter() { 
-    this.hideImage(this.imagesCounter-1);
-    this.imagesCounter === this.images.length ? this.imagesCounter = 1 : this.imagesCounter++;
-    this.showImage(this.imagesCounter-1); 
-    this.setControllersText();
+  _changeImage() { 
+    this.image.setAttribute('src', this.props.images[this.imagesCounter-1].link);
+    this.image.className = `card__image card__image_${this.props.images[this.imagesCounter-1].objectFit}`;
   }
-  decreaseImagesCounter() { 
-    this.hideImage(this.imagesCounter-1);
-    this.imagesCounter === 1 ? this.imagesCounter = this.images.length : this.imagesCounter--;
-    this.showImage(this.imagesCounter-1); 
-    this.setControllersText();
+  _setControllersText() { this.imagesControllersTextBlock.textContent = `${this.imagesCounter}/${this.props.images.length}`; }
+  _increaseImagesCounter() { 
+    this.imagesCounter === this.props.images.length ? this.imagesCounter = 1 : this.imagesCounter++;
+    this._changeImage();
+    this._setControllersText();
   }
-  _setInitialPositionForImages() { 
-    this.images.forEach((item, index) => { index !== 0 ? this.hideImage(index) : this.showImage(index) });
-    this.setControllersText();
+  _decreaseImagesCounter() { 
+    this.imagesCounter === 1 ? this.imagesCounter = this.props.images.length : this.imagesCounter--;
+    this._changeImage(); 
+    this._setControllersText();
   }
   _setEventListenerOnImagesControllers() {
     this.imagesControllers.addEventListener('click', (event) => {
       if(event.target.closest('.card__images-controller_up')) {
-        this.increaseImagesCounter.call(this);
+        this._increaseImagesCounter.call(this);
       } else if(event.target.closest('.card__images-controller_down')) {
-        this.decreaseImagesCounter.call(this);
+        this._decreaseImagesCounter.call(this);
       }
     });
   }
@@ -401,8 +391,8 @@ wirelessCleanersArray.forEach((item) => {
       if( item.getHeight() > wirelessSlider.getHeight() ) { //  Меняем высоту слайдера при раскрытии карточки которая больше
         wirelessSlider.setHeight( item.getHeight(), false )
         modelsBlock.active( wirelessSlider.getHeight() );
-      } 
-      if( wirelessCleanersArray.every((item) => { item.isOpen === false }) ) { // Если все карточки закрыты
+      }
+      if( wirelessCleanersArray.every((item) => { return item.isOpen === false }) ) { // Если все карточки закрыты \/\/ В дебагге работает, а просто не работает(((
         wirelessSlider.setHeight( wirelessSlider.root.scrollHeight );
         modelsBlock.active( wirelessSlider.getHeight() );
       }

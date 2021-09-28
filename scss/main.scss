@@ -384,6 +384,12 @@ $custom-grey: #f7f7f7;
   }
 }
 
+.models__slider-road_wireless .card__data-row-advantage:last-of-type { width: 300% }
+.models__slider-road_robot .card__data-row-advantage:last-of-type { width: 100% }
+@media screen and (max-width: 767px) {
+  .models__slider-road_wireless .card__data-row-advantage:last-of-type { width: 100% }
+}
+
 .card {
   position: relative;
   flex-shrink: 0; // Много карточек в узком слайдере
@@ -412,6 +418,7 @@ $custom-grey: #f7f7f7;
     position: absolute;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 
     &_cover { object-fit: cover; }
     &_contain { object-fit: contain; }
@@ -547,10 +554,13 @@ $custom-grey: #f7f7f7;
     padding: 40px 5px;
     text-align: center;
     border-top: 1px solid #e0e0e0;
+    // width: Зависит от slider-road
 
     &-title {
       @include font-stylesizing(15px, 20px, 700);
       color: #447b82;
+      max-width: 90%;
+      margin: 0 auto;
     }
 
     &-text {
@@ -573,10 +583,6 @@ $custom-grey: #f7f7f7;
 
     &__data-row-advantage {
       padding: 20px 5px;
-
-      &:last-of-type {
-        width: 200%;
-      }
     }
   }
 }
