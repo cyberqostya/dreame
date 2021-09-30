@@ -9,14 +9,14 @@ html {
   box-sizing: border-box;
 }
 
-.footer, .about, .models, .intro, .header {
+.footer, .about, .models, .intro, .header, .popup__window {
   font-family: Roboto, sans-serif;
   padding-left: 8%;
   padding-right: 8%;
 }
 
 @media screen and (max-width: 1500px) {
-  .footer, .about, .models, .intro, .header {
+  .footer, .about, .models, .intro, .header, .popup__window {
     padding-left: 3%;
     padding-right: 3%;
   }
@@ -41,19 +41,107 @@ html {
   width: 100vw;
   background-color: #00000080;
   z-index: 10;
-  display: flex;
   display: none;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.popup._active {
+  display: flex;
 }
 .popup__window {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  position: relative;
   width: 60%;
-  height: 60%;
+  min-height: 60%;
   min-width: 320px;
+  text-align: center;
+  cursor: default;
   border-radius: 10px;
   background: linear-gradient(180deg, #F1F4F9 0%, #F1F4F9 22.52%, #F1F4F9 43.92%, #ECF1F5 56.6%, #E2E9EF 72.49%, #D9E2EB 88.08%, #D6DFE8 100%);
 }
+.popup__close {
+  background: none;
+  border: none;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  transition: opacity 0.4s;
+  cursor: pointer;
+}
+.popup__close:hover {
+  opacity: 0.7;
+}
+.popup__close-icon {
+  width: 100%;
+  height: 100%;
+}
+.popup__title {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 700;
+}
+.popup__links-container {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+.popup__link {
+  display: block;
+  width: 250px;
+  height: 60px;
+  border-radius: 22px;
+  background: center/contain no-repeat #fff;
+  transition: opacity 0.4s;
+}
+.popup__link:hover {
+  opacity: 0.6;
+}
+.popup__link_mvideo {
+  background-image: url(../img/shops/mvideo-logo.svg);
+  background-size: 50%;
+}
+.popup__link_dns {
+  background-image: url(../img/shops/dns-logo.svg);
+  background-size: 40%;
+}
+.popup__link_aliexpress {
+  background-image: url(../img/shops/aliexpress-logo.svg);
+  background-size: 60%;
+}
+.popup__link_fotosklad {
+  background-image: url(../img/shops/fotosklad-logo.svg);
+  background-size: 70%;
+}
+.popup__link_ozon {
+  background-image: url(../img/shops/ozon-logo.svg);
+  background-size: 50%;
+}
+.popup__link_rbt {
+  background-image: url(../img/shops/rbt-logo.png);
+  background-color: #ff9e1b;
+  background-size: 50%;
+}
 
+@media screen and (max-width: 767px) {
+  .popup__window {
+    padding-top: 60px;
+  }
+  .popup__title {
+    font-size: 25px;
+    line-height: 25px;
+    font-weight: 400;
+  }
+  .popup__links-container {
+    margin-top: 40px;
+    align-items: center;
+  }
+}
 .main {
   width: 100%;
 }
@@ -502,6 +590,48 @@ html {
   font-size: 13px;
   line-height: 14px;
   font-weight: 400;
+}
+.card__data-text-container {
+  padding-top: 25px;
+}
+.card__data-text {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  position: relative;
+  padding-bottom: 50px;
+  max-height: 88px;
+  overflow: hidden;
+}
+.card__data-text::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #ffffff00, #fff);
+}
+.card__data-button-more {
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  color: #447B82;
+  margin-top: 15px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.card__data-text-container._active > .card__data-text {
+  padding-bottom: 0;
+  max-height: none;
+}
+.card__data-text-container._active > .card__data-text::after {
+  display: none;
+}
+.card__data-text-container._active > .card__data-button-more {
+  display: none;
 }
 .card__data-row-advantages {
   padding-top: 25px;

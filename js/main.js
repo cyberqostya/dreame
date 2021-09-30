@@ -3,15 +3,42 @@ window.location.hash = ''; // Убирает якорь из адресной с
 class Popup {
   constructor(root) {
     this.root = root;
-    this.popupContainer = this.root.querySelector('.popup__window');
+    this.linksContainer = this.root.querySelector('.popup__links-container');
+    this.closeButton = root.querySelector('.popup__close');
+    
+    this.isOpen = false;
+
+    this.closeButton.addEventListener('click', this.changeIsOpen);
+    this.root.addEventListener('mouseup', this._closePopup);
   }
 
-  createLink(link, shop) {
+  changeIsOpen = (links) => {
+    this.isOpen = !this.isOpen;
+    this._render(links);
+  }
+
+  _createLink(link, shop) {
     const newLink = `<a href="${link}" target="__blank" class="popup__link popup__link_${shop}"></a>`;
-    this.popupContainer.insertAdjacentHTML('beforeend', link);
+    this.linksContainer.insertAdjacentHTML('beforeend', newLink);
   }
 
+  _render(links) {
+    if(this.isOpen) {
+      Object.entries(links).forEach((item) => { this._createLink(item[1], item[0]); });
+      this.root.classList.add('_active');
+      document.body.style.overflow = 'hidden';
+    } else { // При закрытии
+      this.linksContainer.innerHTML = ''; // Очищаем контейнер с сылками
+      this.root.classList.remove('_active');
+      document.body.style.overflow = 'auto';
+    }
+  }
 
+  _closePopup = (event) => {
+    if (event.target === this.root) {
+      this.changeIsOpen();
+    }
+  }
 }
 
 
@@ -91,6 +118,8 @@ class ModelsBlock {
     this.rootHeightWithoutSlider = this.rootPaddingTop + this.rootPaddingBottom + this.titleHeight + this.titleMarginBottom;
 
     this.isActive = false;
+
+    this.root.addEventListener('transitionend', () => { this.root.style.height = 'fit-content'; });
   }
 
   active(height) {
@@ -190,6 +219,9 @@ class Card {
       this.buyButton = this.root.querySelector('.card__data-button_buy'); // Кнопка КУПИТЬ
       this.characteristicsButton = this.root.querySelector('.card__data-button_characteristics'); // Кнопка ХАРАКТЕРИСТИКИ
     this.dataCircleAdvantages = this.root.querySelector('.card__data-circle-advantages'); // Блок с преимуществами в кружочках
+    this.dataTextContainer = this.root.querySelector('.card__data-text-container');
+      this.dataText = this.root.querySelector('.card__data-text');
+      this.dataButtonMore = this.root.querySelector('.card__data-button-more');
     this.dataRowAdvantages = this.root.querySelector('.card__data-row-advantages'); // Блок с преимуществами в строках
 
 
@@ -197,17 +229,21 @@ class Card {
     this.isOpen = true; // Стейт раскрыта ли карточка
     this.imagesCounter = 1;
 
-    // Высоты для анимации раскрытия карточки
+    // Высота открытой и закрытой карточки для анимации
     this.rootHeightOpened = this.root.clientHeight;
     this.dataCircleAdvantagesHeight = this.dataCircleAdvantages.clientHeight;
       this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM = 25; // CSS
-      this.dataCircleAdvantagesInvisibleHeight = this.dataCircleAdvantages.children.length > 3 ? this._getHeightOfSecondCirclesRow() : -this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM;
+      this.dataCircleAdvantagesInvisibleHeight = this.dataCircleAdvantages.children.length > 3 ? 
+        this._getHeightOfSecondCirclesRow() : 
+        -this.DATA_CIRCLE_ADVANTAGES_PADDING_BOTTOM;
+    this.dataTextContainerHeight = this.dataTextContainer.clientHeight;
     this.dataRowAdvantagesHeight = this.dataRowAdvantages.clientHeight;
-    this.rootHeightClosed = this.rootHeightOpened - this.dataRowAdvantagesHeight - this.dataCircleAdvantagesInvisibleHeight; // поправка
+    this.rootHeightClosed = this.rootHeightOpened - this.dataCircleAdvantagesInvisibleHeight - this.dataTextContainerHeight - this.dataRowAdvantagesHeight; // поправка
 
 
     // Инициализация
     this._setEventListenerOnImagesControllers();
+    this._setEventListenerOnButtonMore();
     this.changeIsOpen(); // закрыть все карточки
   } // ---------------------------------------------------
 
@@ -277,6 +313,12 @@ class Card {
           ${stringCircleAdvantages.join(' ')}
         
         </div>
+
+        <div class="card__data-text-container">
+          <p class="card__data-text">${this.props.textAbout}</p>
+          <button class="card__data-button-more">еще</button>
+        </div>
+
         <div class="card__data-row-advantages">
           
           ${stringRowAdvantages.join(' ')}
@@ -321,12 +363,32 @@ class Card {
   // Конец логики переключения изображений
 
 
+  _setEventListenerOnButtonMore() {
+    this.dataButtonMore.addEventListener('click', () => {
+      this.dataTextContainer.classList.add('_active');
+      this._updateRootOpenedAndClosedHeights();
+    });
+  }
+
+  _updateRootOpenedAndClosedHeights() {
+    const oldDataTextContainerHeight = this.dataTextContainerHeight;
+    this.dataTextContainerHeight = this.dataTextContainer.clientHeight;
+    this.rootHeightOpened += (this.dataTextContainerHeight - oldDataTextContainerHeight);
+    // this.rootHeightClosed = this.rootHeightOpened - this.dataCircleAdvantagesInvisibleHeight - this.dataTextContainerHeight - this.dataRowAdvantagesHeight;
+    console.log(this.rootHeightOpened)
+    this._renderCardOpenedHeight()
+  }
+
+  _renderCardOpenedHeight() { this.root.style.height = this.rootHeightOpened + 'px' }
+  _renderCardClosedHeight() { this.root.style.height = this.rootHeightClosed + 'px' }
+
+
   changeIsOpen() {
     this.isOpen = !this.isOpen;
     
     this.isOpen ?
-      this.root.style.height = this.rootHeightOpened + 'px' :
-      this.root.style.height = this.rootHeightClosed + 'px';
+      this._renderCardOpenedHeight() :
+      this._renderCardClosedHeight();
   }
 }
 
@@ -337,6 +399,7 @@ const choiceBlock = new ChoiceBlock(document.querySelector('.choice'));
 const modelsBlock = new ModelsBlock(document.querySelector('.models'));
 const wirelessSlider = new Slider(document.querySelector('.models__slider-road_wireless'));
 const robotSlider = new Slider(document.querySelector('.models__slider-road_robot'));
+const popup = new Popup(document.querySelector('.popup'));
 
 
 // Создание карточек
@@ -354,29 +417,35 @@ robotSlider.setHeight( robotSlider.root.scrollHeight );
   robotSlider.hideSlider();
 
 
-// При клике на кнопку выбора модели меняется стейт
-choiceBlock.root.addEventListener('click', (event) => {
-  const button = event.target.closest(`.${ choiceBlock.buttonWireless.classList[0] }`);
-  if(button) { // Нажали на кнопку?
+// При клике на кнопку выбора модели - меняется стейт
+function buttonWirelessHandler() {
+  choiceBlock.changeWirelessState(); // Узнали какой стейт активный для передачи его
+  modelsBlock.active( wirelessSlider.getHeight() ); // Отобразили блок "Все модели"
+  wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
+  robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
+  addListenersOnChoiceButtonsDependingOnState();
+}
+function buttonRobotHandler() {
+  choiceBlock.changeRobotState(); // Узнали какой стейт активный для передачи его
+  modelsBlock.active( robotSlider.getHeight() ); // Отобразили блок "Все модели"
+  wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
+  robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
+  addListenersOnChoiceButtonsDependingOnState();
+}
+function addListenersOnChoiceButtonsDependingOnState() { // Исходя из стейта ставятся обработчики
+  const state = choiceBlock.getState();
+  state.isWirelessActive ? 
+    choiceBlock.buttonWireless.removeEventListener('click', buttonWirelessHandler) :
+    choiceBlock.buttonWireless.addEventListener('click', buttonWirelessHandler); // Беспроводные
+  state.isRobotActive ? 
+    choiceBlock.buttonRobot.removeEventListener('click', buttonRobotHandler) : 
+    choiceBlock.buttonRobot.addEventListener('click', buttonRobotHandler); // Роботы
+}
+addListenersOnChoiceButtonsDependingOnState();
 
-    if( button.classList.contains(choiceBlock.buttonWireless.classList[1]) ) { // Нажали на беспроводные?
 
-      choiceBlock.changeWirelessState(); // Узнали какой стейт активный для передачи его
-      modelsBlock.active( wirelessSlider.getHeight() ); // Отобразили блок "Все модели"
-      wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
-      robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
 
-    } else if( button.classList.contains(choiceBlock.buttonRobot.classList[1]) ) { // Нажали на роботы?
 
-      choiceBlock.changeRobotState(); // Узнали какой стейт активный для передачи его
-      modelsBlock.active( robotSlider.getHeight() ); // Отобразили блок "Все модели"
-      wirelessSlider.setActivity( (choiceBlock.getState()).isWirelessActive ); // Отобразили выбранный слайдер
-      robotSlider.setActivity( (choiceBlock.getState()).isRobotActive );
-
-    }
-
-  }
-});
 
 
 // При клике на кнопку в карточке
@@ -386,15 +455,12 @@ wirelessCleanersArray.forEach((item) => {
     const target = event.target.closest('.card__data-button');
     if(target === item.buyButton) { // Нажали на КУПИТЬ
 
+      popup.changeIsOpen(item.props.linksOnMarkets);
+
     } else if(target === item.characteristicsButton) { // Нажали на Характеристики
       item.changeIsOpen();
       if( item.getHeight() > wirelessSlider.getHeight() ) { //  Меняем высоту слайдера при раскрытии карточки которая больше
-        wirelessSlider.setHeight( item.getHeight(), false )
-        modelsBlock.active( wirelessSlider.getHeight() );
-      }
-      if( wirelessCleanersArray.every((item) => { return item.isOpen === false }) ) { // Если все карточки закрыты \/\/ В дебагге работает, а просто не работает(((
-        wirelessSlider.setHeight( wirelessSlider.root.scrollHeight );
-        modelsBlock.active( wirelessSlider.getHeight() );
+        wirelessSlider.setHeight( item.getHeight(), false );
       }
     }
 
@@ -406,13 +472,13 @@ robotCleanersArray.forEach((item) => {
     const target = event.target.closest('.card__data-button');
     if(target === item.buyButton) { // Нажали на КУПИТЬ
 
+      popup.changeIsOpen(item.props.linksOnMarkets);
+
     } else if(target === item.characteristicsButton) { // Нажали на Характеристики
       item.changeIsOpen();
       if( item.getHeight() > robotSlider.getHeight() ) { //  Меняем высоту слайдера при раскрытии карточки которая больше
-        robotSlider.setHeight( item.getHeight(), false )
-        modelsBlock.active( robotSlider.getHeight() );
+        robotSlider.setHeight( item.getHeight(), false );
       }
     }
-
   });
 });

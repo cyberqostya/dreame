@@ -15,12 +15,13 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/pylesos-besprovodnoy-ruchnoy-xiaomi-dreame-v12-380876.html',
       },
       circleAdvantages: [
-        { title: 'Влажная уборка', link: './img/circleAdvantages/wet-cleaning.svg' },
+        { title: 'Мощность всасывания 185 аВт', link: './img/circleAdvantages/suction.svg' },
         { title: 'Время работы - 90 мин*', link: './img/circleAdvantages/90min.svg' },
-        { title: 'LED дисплей', link: './img/circleAdvantages/LED.svg' },
+        { title: 'OLED дисплей', link: './img/circleAdvantages/OLED.svg' },
         { title: 'Доп. комплек&shy;тация насадки', link: './img/circleAdvantages/additional-nozzle.svg' },
-        { title: 'Более мощный аккумулятор', link: './img/circleAdvantages/battery.svg' },
+        { title: 'Высокая скорость двигателя', link: './img/circleAdvantages/dvigatel.svg' },
       ],
+      textAbout: 'Пылесос оснащен уникальным электродвигателем Space 5.0, который способен достигать 150000 оборотов в минуту. Система очистки с 12 циклонными фильтрами с помощью одной только центробежной силы удаляет из воздуха 99.67% загрязнений, на порядок снижая нагрузку на остальные фильтрующие элементы. 90 минут работы благодаря аккумулятору емкостью 30000 мА·ч помогут справиться с самыми большими помещениями. Роликовая половая щетка с собственным электроприводом благодаря большому крутящему моменту удаляет с пола самые стойкие загрязнения.',
       advantages: [
         { title: 'Скорость оборота двигателя', text: '150000 об/мин' },
         { title: 'Номинальная мощность', text: '550 Вт' },
@@ -52,10 +53,11 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/pylesos-besprovodnoy-ruchnoy-xiaomi-dreame-t10-380242.html',
       },
       circleAdvantages: [
-        { title: 'Объем бака 0.5 л', link: './img/circleAdvantages/volume.svg' },
+        { title: 'Мощность всасывания 120 аВт', link: './img/circleAdvantages/suction.svg' },
         { title: 'Съемный аккумулятор', link: './img/circleAdvantages/battery.svg' },
-        { title: 'Низкая цена', link: './img/circleAdvantages/price.svg' },
+        { title: 'Объем бака 0,6 л', link: './img/circleAdvantages/volume.svg' },
       ],
+      textAbout: 'Беспроводной ручной пылесос Dreame T10. Уборка стала проще! Более чистый воздух за счет многоуровневой фильтрации. Работа до 60 минут и увеличенный объем контейнера для пыли. Универсальная роликовая щетка для всех типов поверхностей. Специальный дизайн V-образной щетки позволяет распутывать волосы. Стабильная сила всасывания. Улучшенный дизайн для более эффективной уборки!',
       advantages: [
         { title: 'Скорость оборота двигателя', text: '100000 об/мин' },
         { title: 'Номинальная мощность', text: '400 Вт' },
@@ -86,12 +88,13 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/pylesos-besprovodnoy-ruchnoy-xiaomi-dreame-v9-vacuum-cleaner-205363.html',
       },
       circleAdvantages: [
-        { title: '99.97% Эффектив&shy;ность очистки', link: './img/circleAdvantages/efficiency.svg' },
+        { title: 'Мощность всасывания 120 аВт', link: './img/circleAdvantages/suction.svg' },
         { title: 'Время работы - 60 мин*', link: './img/circleAdvantages/60min.svg' },
         { title: '1.5 кг масса корпуса', link: './img/circleAdvantages/weight.svg' },
         { title: '3.5 часа Время зарядки', link: './img/circleAdvantages/charge.svg' },
-        { title: 'Мощность всасывания 120 аВт', link: './img/circleAdvantages/suction.svg' },
+        { title: '99.97% Эффектив&shy;ность очистки', link: './img/circleAdvantages/efficiency.svg' },
       ],
+      textAbout: 'Вертикальный пылесос Dreame V9 обладает мощностью всасывания 120 Вт. Пылесос оснащен мощным электродвигателем, работающим со скоростью до 100000 об/мин. Мощное и долговечное всасывание и продуманный дизайн обеспечивают комфорт при уборке дома. Пылесос имеет 60 минут автономной работы и способен справиться с уборкой площадью 400 квадратных метров.',
       advantages: [
         { title: 'Скорость оборота двигателя', text: '100000 об/мин' },
         { title: 'Номинальная мощность', text: '400 Вт' },
@@ -123,12 +126,13 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/pylesos-besprovodnoy-ruchnoy-xiaomi-dreame-v10-vacuum-cleaner-belyy-307774.html',
       },
       circleAdvantages: [
-        { title: '6-уровневое поглощение звука', link: './img/circleAdvantages/sound-absorption.svg' },
+        { title: 'Мощность всасывания 140 аВт', link: './img/circleAdvantages/suction.svg' },
         { title: '450 Вт рабочая мощность', link: './img/circleAdvantages/efficiency.svg' },
         { title: 'Время работы - 60 мин*', link: './img/circleAdvantages/60min.svg' },
         { title: 'SmartCool Саморегу&shy;лируемая система охлаждения воздуха', link: './img/circleAdvantages/smartcool.svg' },
-        { title: 'Меньше шума', link: './img/circleAdvantages/less-noise.svg' },
+        { title: '6-уровневое поглощение звука', link: './img/circleAdvantages/sound-absorption.svg' },
       ],
+      textAbout: 'В пылесосе Dreame реализована 5-ступенчатая система тончайшей фильтрации, которая с высочайшей эффективностью улавливает даже мелкие частицы размером до 0.3 мкм. Вертикальный пылесос Dreame V10 обладает мощностью всасывания 150 Вт и способен работать до 60 минут.',
       advantages: [
         { title: 'Скорость оборота двигателя', text: '100000 об/мин' },
         { title: 'Номинальная мощность', text: '450 Вт' },
@@ -160,10 +164,11 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/pylesos-besprovodnoy-ruchnoy-xiaomi-dreame-v11-se-380875.html',
       },
       circleAdvantages: [
+        { title: 'Мощность всасывания 150 аВт', link: './img/circleAdvantages/suction.svg' },
         { title: 'OLED дисплей', link: './img/circleAdvantages/OLED.svg' },
         { title: 'Фиксация кнопки', link: './img/circleAdvantages/fix.svg' },
-        { title: 'Мощность всасывания 150 аВт', link: './img/circleAdvantages/suction.svg' },
       ],
+      textAbout: 'Пылесос оснащен мощным бесщеточным электродвигателем, работающим со скоростью до 125000 об/мин, с помощью которого даже глубокие щели эффективно очищаются от стойкой грязи и пыли. Система очистки с 12 циклонными фильтрами с помощью одной только центробежной силы удаляет из воздуха 99.67% загрязнений, на порядок снижая нагрузку на остальные фильтрующие элементы. 60 минут работы благодаря аккумулятору емкостью 2500 мА·ч помогут справиться с самыми большими помещениями. Роликовая половая щетка с собственным электроприводом благодаря большому крутящему моменту удаляет с пола самые стойкие загрязнения.',
       advantages: [
         { title: 'Скорость оборота двигателя', text: '125000 об/мин' },
         { title: 'Номинальная мощность', text: '450 Вт' },
@@ -195,7 +200,9 @@ const cleaners = {
         { title: 'Сухая и влажная уборка', link: './img/circleAdvantages/wet.svg' },
         { title: 'Управление через смартфон', link: './img/circleAdvantages/smartphone.svg' },
         { title: 'Мощность всасывания 2500 Па', link: './img/circleAdvantages/suction.svg' },
+        { title: 'Площадь уборки на одном заряде', link: './img/circleAdvantages/area.svg' },
       ],
+      textAbout: 'Мощность всасывания составляет 2500  Па. С помощью щетки 2-в-1 осуществляется не только сухая, но и влажная уборка. Ткань швабры состоит из антибактериальных материалов, поэтому уничтожается до 99,9 % бактерий. Пользователь может настроить уровень расхода воды из резервуара. Влажная уборка применяется на площади до 200 м2. Встроены пылесборник на 400 мл и резервуар для воды на 200 мл.',
       advantages: [
         { title: 'Тип уборки', text: 'сухая и влажная' },
         { title: 'Построение карты', text: 'с помощью камеры' },
@@ -227,10 +234,13 @@ const cleaners = {
         fotosklad: 'https://www.fotosklad.ru/catalog/robot-pylesos-xiaomi-dreame-d9-356395.html',
       },
       circleAdvantages: [
+        { title: 'Мощность всасывания 3000 Па', link: './img/circleAdvantages/suction.svg' },
         { title: 'Сухая и влажная уборка', link: './img/circleAdvantages/wet.svg' },
-        { title: 'Объем бака 0,57 л', link: './img/circleAdvantages/volume.svg' },
-        { title: 'Обновленная система навигации', link: './img/circleAdvantages/navigation.svg' },
+        { title: 'Объем пылесборника 0,57 л', link: './img/circleAdvantages/volume.svg' },
+        { title: 'LIDAR навигация', link: './img/circleAdvantages/navigation.svg' },
+        { title: 'Аккумулятор 5200мАч', link: './img/circleAdvantages/battery.svg' },
       ],
+      textAbout: 'Робот пылесос оснащен системой лидар. Мощность всасывания составляет 3000 Па. Присутствует 4 режима мощности. Когда на пути робота обнаруживается ковер, то он автоматически увеличивает давление всасывания для наиболее глубокого очищения. Система шумоподавления снижает уровень громкости во время работы пылесоса до 65 дБ. С помощью щетки 2-в-1 осуществляется не только сухая, но и влажная уборка. Ткань швабры состоит из антибактериальных материалов, поэтому уничтожается до 99,9 % бактерий. Пользователь может настроить уровень расхода воды из резервуара. Влажная уборка применяется на площади до 250 м2. Встроены пылесборник на 570 мл и резервуар для воды на 270 мл. Внутри установлены бесщеточный двигатель Nidec, аэродинамическая труба и НЕРА-фильтр.',
       advantages: [
         { title: 'Тип уборки', text: 'сухая и влажная' },
         { title: 'Построение карты', text: 'лидар' },
@@ -263,8 +273,11 @@ const cleaners = {
       circleAdvantages: [
         { title: 'Сухая и влажная уборка', link: './img/circleAdvantages/wet.svg' },
         { title: 'Мощность всасывания 4000 Па', link: './img/circleAdvantages/suction.svg' },
-        { title: 'Интеграция с Alexa', link: './img/circleAdvantages/alexa.svg' },
+        { title: 'Объем пылесборника 0,57 л', link: './img/circleAdvantages/volume.svg' },
+        { title: 'LIDAR навигация', link: './img/circleAdvantages/navigation.svg' },
+        { title: 'Аккумулятор 5200мАч', link: './img/circleAdvantages/battery.svg' },
       ],
+      textAbout: 'Робот пылесос оснащен системой лидар. Мощность всасывания составляет 4000 Па. Присутствует 4 режима мощности. Когда на пути робота обнаруживается ковер, то он автоматически увеличивает давление всасывания для наиболее глубокого очищения. Система шумоподавления снижает уровень громкости во время работы пылесоса до 65 дБ. С помощью щетки 2-в-1 осуществляется не только сухая, но и влажная уборка. Ткань швабры состоит из антибактериальных материалов, поэтому уничтожается до 99,9 % бактерий. Пользователь может настроить уровень расхода воды из резервуара. Влажная уборка применяется на площади до 250 м2. Встроены пылесборник на 570 мл и резервуар для воды на 270 мл. Внутри установлены бесщеточный двигатель Nidec, аэродинамическая труба и НЕРА-фильтр.',
       advantages: [
         { title: 'Тип уборки', text: 'сухая и влажная' },
         { title: 'Построение карты', text: 'лидар' },
