@@ -1,10 +1,11 @@
 class Card {
   constructor(props, cardContainer) {
 
-    // Создание карточки путем шаблонной строки
     this.props = props;
     this.cardContainer = cardContainer;
-
+    
+    // Создание карточки путем шаблонной строки
+    // И добавление её в родительский элемент для связывания ШАБЛОННОЙ СТРОКИ с DOM-УЗЛАМИ
     this.stringTemplate = this._getTemplate();
     this._addCardToCardContainer();
 
@@ -19,8 +20,6 @@ class Card {
       this.image = this.imagesContainer.querySelector('.card__image');
       this.imagesControllers = this.imagesContainer.querySelector('.card__images-controllers-container');
         this.imagesControllersTextBlock = this.imagesContainer.querySelector('.card__images-controllers-counter');
-    this.dataContainer = this.root.querySelector('.card__data-container'); // Блок с данными карточки
-    this.buttonsContainer = this.root.querySelector('.card__data-buttons-container'); // Контейнер с кнопками
       this.buyButton = this.root.querySelector('.card__data-button_buy'); // Кнопка КУПИТЬ
       this.characteristicsButton = this.root.querySelector('.card__data-button_characteristics'); // Кнопка ХАРАКТЕРИСТИКИ
     this.dataCircleAdvantages = this.root.querySelector('.card__data-circle-advantages'); // Блок с преимуществами в кружочках
@@ -180,7 +179,6 @@ class Card {
     this.dataTextContainerHeight = this.dataTextContainer.clientHeight;
     this.rootHeightOpened += (this.dataTextContainerHeight - oldDataTextContainerHeight);
     // this.rootHeightClosed = this.rootHeightOpened - this.dataCircleAdvantagesInvisibleHeight - this.dataTextContainerHeight - this.dataRowAdvantagesHeight;
-    console.log(this.rootHeightOpened)
     this._renderCardOpenedHeight()
   }
 

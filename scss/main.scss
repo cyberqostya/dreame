@@ -393,9 +393,8 @@ $custom-grey: #f7f7f7;
 
 .models {
   @extend %block-styles;
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 0;
+  padding-top: 90px;
+  padding-bottom: 90px;
   overflow: hidden;
 
   display: flex;
@@ -404,11 +403,6 @@ $custom-grey: #f7f7f7;
 
   background-color: #fff;
   transition: height $animation-speed;
-
-  &._active {
-    padding-top: 90px;
-    padding-bottom: 90px;
-  }
 
   &__title {
     @include font-stylesizing(38px, 53px, 700);
@@ -422,13 +416,6 @@ $custom-grey: #f7f7f7;
     overflow-x: overlay;
     padding-bottom: 40px;
     cursor: grab;
-
-    animation: sliderRoadAppear $animation-speed ease forwards;
-
-    &._deactive {
-      display: none;
-      animation: sliderRoadDisappear $animation-speed ease forwards;
-    }
 
     &::-webkit-scrollbar { width: 0; height: 3px; }
     &::-webkit-scrollbar-thumb { background-color: #000 }
@@ -452,12 +439,6 @@ $custom-grey: #f7f7f7;
   }
 }
 
-.models__slider-road_wireless .card__data-row-advantage:last-of-type { width: 300% }
-.models__slider-road_robot .card__data-row-advantage:last-of-type { width: 100% }
-@media screen and (max-width: 767px) {
-  .models__slider-road_wireless .card__data-row-advantage:last-of-type { width: 100% }
-}
-
 .card {
   position: relative;
   flex-shrink: 0; // Много карточек в узком слайдере
@@ -479,7 +460,6 @@ $custom-grey: #f7f7f7;
     
     width: 100%;
     aspect-ratio: 1/1;
-    // height: Задается через JS для правильного соотношения сторон
   }
 
   &__image {
@@ -507,6 +487,12 @@ $custom-grey: #f7f7f7;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    background: #ffffffaa;
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 6px 4px;
+    box-sizing: content-box;
   }
 
   &__images-controller {
@@ -538,7 +524,7 @@ $custom-grey: #f7f7f7;
   }
 
   &__data-title {
-    @include font-stylesizing(39px, 42px);
+    @include font-stylesizing(33px, 42px);
     max-width: 94%;
   }
 
@@ -613,10 +599,10 @@ $custom-grey: #f7f7f7;
 
   }
   &__data-text {
-    @include font-stylesizing(16px, 22px);
+    @include font-stylesizing(16px, 25px);
     position: relative;
     padding-bottom: 50px;
-    max-height: 88px;
+    max-height: 100px;
     overflow: hidden;
 
     &::after {
@@ -637,6 +623,9 @@ $custom-grey: #f7f7f7;
     cursor: pointer;
     background: none;
     border: none;
+    transition: opacity $animation-speed;
+
+    &:hover { opacity: .7; }
   }
   &__data-text-container._active > &__data-text { padding-bottom: 0; max-height: none }
   &__data-text-container._active > &__data-text::after { display: none }
@@ -707,8 +696,6 @@ $custom-grey: #f7f7f7;
     overflow-y: scroll;
     position: relative;
     top: -50px;
-
-    &::-webkit-scrollbar { width: 0px }
 
     &::before, &::after {
       content: '';

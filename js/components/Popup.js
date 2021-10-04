@@ -6,13 +6,17 @@ class Popup {
     
     this.isOpen = false;
 
-    this.closeButton.addEventListener('click', this.changeIsOpen);
-    this.root.addEventListener('mouseup', this._closePopup);
+    this._setEventListeners();
   }
 
   changeIsOpen = (links) => {
     this.isOpen = !this.isOpen;
     this._render(links);
+  }
+
+  _setEventListeners() {
+    this.closeButton.addEventListener('click', this.changeIsOpen);
+    this.root.addEventListener('mouseup', this._closePopup);
   }
 
   _createLink(link, shop) {
@@ -33,8 +37,6 @@ class Popup {
   }
 
   _closePopup = (event) => {
-    if (event.target === this.root) {
-      this.changeIsOpen();
-    }
+    if (event.target === this.root) { this.changeIsOpen() }
   }
 }

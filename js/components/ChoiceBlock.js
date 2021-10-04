@@ -4,27 +4,23 @@ class ChoiceBlock {
     this.buttonWireless = root.querySelector('.choice__cleaner-button_wireless');
     this.buttonRobot = root.querySelector('.choice__cleaner-button_robot');
 
-    this.state = {
-      isWirelessActive: false,
-      isRobotActive: false
+    this.stateActivity = {
+      wireless: false,
+      robot: false
     };
   }
 
-  changeWirelessState() {
-    this.state = {
-      isWirelessActive: true,
-      isRobotActive: false
-    };
+  // Только один блок может быть активным
+  // Один активируем, остальные ДЕактивируем
+  activeState(stateName) {
+    this.stateActivity[stateName] = true;
+    Object.keys(this.stateActivity)
+      .forEach((item) => { 
+        if(item !== stateName) { 
+          this.stateActivity[item] = false;
+        } 
+      });
   }
 
-  changeRobotState() {
-    this.state = {
-      isWirelessActive: false,
-      isRobotActive: true
-    };
-  }
-
-  getState() {
-    return this.state;
-  }
+  getState() { return this.stateActivity }
 }

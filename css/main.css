@@ -298,18 +298,14 @@ html {
   .choice__button-link {
     width: 100%; } }
 .models {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 0;
+  padding-top: 90px;
+  padding-bottom: 90px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: #fff;
   transition: height 0.4s; }
-  .models._active {
-    padding-top: 90px;
-    padding-bottom: 90px; }
   .models__title {
     font-size: 38px;
     line-height: 53px;
@@ -321,11 +317,7 @@ html {
     grid-column-gap: 30px;
     overflow-x: overlay;
     padding-bottom: 40px;
-    cursor: grab;
-    animation: sliderRoadAppear 0.4s ease forwards; }
-    .models__slider-road._deactive {
-      display: none;
-      animation: sliderRoadDisappear 0.4s ease forwards; }
+    cursor: grab; }
     .models__slider-road::-webkit-scrollbar {
       width: 0;
       height: 3px; }
@@ -358,15 +350,6 @@ html {
   .models {
     padding-left: 0;
     padding-right: 0; } }
-.models__slider-road_wireless .card__data-row-advantage:last-of-type {
-  width: 300%; }
-
-.models__slider-road_robot .card__data-row-advantage:last-of-type {
-  width: 100%; }
-
-@media screen and (max-width: 767px) {
-  .models__slider-road_wireless .card__data-row-advantage:last-of-type {
-    width: 100%; } }
 .card {
   position: relative;
   flex-shrink: 0;
@@ -405,7 +388,12 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between; }
+    justify-content: space-between;
+    background: #ffffffaa;
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 6px 4px;
+    box-sizing: content-box; }
   .card__images-controller {
     width: 100%;
     height: 12px;
@@ -424,7 +412,7 @@ html {
     width: 100%;
     padding: 45px 32px 0; }
   .card__data-title {
-    font-size: 39px;
+    font-size: 33px;
     line-height: 42px;
     font-weight: 400;
     max-width: 94%; }
@@ -483,11 +471,11 @@ html {
     padding-top: 25px; }
   .card__data-text {
     font-size: 16px;
-    line-height: 22px;
+    line-height: 25px;
     font-weight: 400;
     position: relative;
     padding-bottom: 50px;
-    max-height: 88px;
+    max-height: 100px;
     overflow: hidden; }
     .card__data-text::after {
       content: '';
@@ -506,7 +494,10 @@ html {
     margin-top: 15px;
     cursor: pointer;
     background: none;
-    border: none; }
+    border: none;
+    transition: opacity 0.4s; }
+    .card__data-button-more:hover {
+      opacity: .7; }
   .card__data-text-container._active > .card__data-text {
     padding-bottom: 0;
     max-height: none; }
@@ -559,8 +550,6 @@ html {
     overflow-y: scroll;
     position: relative;
     top: -50px; }
-    .about__vertical-slider::-webkit-scrollbar {
-      width: 0px; }
     .about__vertical-slider::before, .about__vertical-slider::after {
       content: '';
       display: block;
