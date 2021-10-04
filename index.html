@@ -8,6 +8,9 @@
 
   <link type="text/css" rel="stylesheet" href="./css/main.css">
 
+  <!-- Плагины -->
+  <link rel="stylesheet" href="plugins/jquery.mCustomScrollbar.css" />
+
   <title>Dreame</title>
 </head>
 
@@ -41,6 +44,9 @@
 
 
     <section class="intro">
+      <video class="intro__video" muted autoplay loop>
+        <source src="./img/intro-video-background.mp4" type="video/mp4">
+      </video>
       <h2 class="intro__subtitle">Лидер рынка пылесосов</h2>
       <h1 class="intro__title">Пылесос Dream T20</h1>
       <p class="intro__text">Продукция, готовая к любым вызовам</p>
@@ -71,21 +77,25 @@
 
 
     <section class="about" id="about-block">
-      <div class="about__vertical-slider">
-        <h2 class="about__title">О бренде</h2>
-        <p class="about__text">Dreame Technology – ведущая компания по производству умной бытовой техники, специализирующаяся на производстве роботов-пылесосов и беспроводных ручных пылесосов. Мы постоянно совершенствуемся, внедряя инновации и передовые технологии, постепенно расширяя линейку нашей продукции.
-        </p>
-        <p class="about__text">Dreame Technology создала и запатентовала высокоскоростной двигатель, монокулярное машинное зрение, а также алгоритм SLAM (одновременная локализация и построение карты) и многоуровневую циклонную сепарацию воздуха. Эти инновационные технологии делают продукты бренда по-настоящему качественными и высокоэффективными.
-        </p>
-        <h2 class="about__title">История</h2>
-        <p class="about__text">Основателем и генеральным директором Dreame Technology является господин Юй Хао. Юй Хао с детства испытывал страсть к изобретению техники и в 2015 году начал свой бизнес, в котором стремился применять аэродинамические технологии в повседневной жизни.
-        </p>
-        <p class="about__text">Компания Dreame полностью изменила индустрию, применяя аэрокосмическую науку в создании техники для уборки дома.
-        </p>
-        <p class="about__text">После многих лет трудоемкой работы и исследовательской деятельности компания Dreame Technology создала серию основных изобретений и зарегистрировала более 150 патентов, многие из которых занимают лидирующие позиции в мире. 
-        </p>
-        <p class="about__text">В конце 2017 года Dreame присоединилась к экологической программе Xiaomi и стала ведущей компанией по производству умной бытовой техники.
-        </p>
+      <div class="about__vertical-slider-container">
+        <div class="about__slider-shadow about__slider-shadow_top"></div>
+        <div class="about__vertical-slider">
+          <h2 class="about__title">О бренде</h2>
+          <p class="about__text">Dreame Technology – ведущая компания по производству умной бытовой техники, специализирующаяся на производстве роботов-пылесосов и беспроводных ручных пылесосов. Мы постоянно совершенствуемся, внедряя инновации и передовые технологии, постепенно расширяя линейку нашей продукции.
+          </p>
+          <p class="about__text">Dreame Technology создала и запатентовала высокоскоростной двигатель, монокулярное машинное зрение, а также алгоритм SLAM (одновременная локализация и построение карты) и многоуровневую циклонную сепарацию воздуха. Эти инновационные технологии делают продукты бренда по-настоящему качественными и высокоэффективными.
+          </p>
+          <h2 class="about__title">История</h2>
+          <p class="about__text">Основателем и генеральным директором Dreame Technology является господин Юй Хао. Юй Хао с детства испытывал страсть к изобретению техники и в 2015 году начал свой бизнес, в котором стремился применять аэродинамические технологии в повседневной жизни.
+          </p>
+          <p class="about__text">Компания Dreame полностью изменила индустрию, применяя аэрокосмическую науку в создании техники для уборки дома.
+          </p>
+          <p class="about__text">После многих лет трудоемкой работы и исследовательской деятельности компания Dreame Technology создала серию основных изобретений и зарегистрировала более 150 патентов, многие из которых занимают лидирующие позиции в мире. 
+          </p>
+          <p class="about__text">В конце 2017 года Dreame присоединилась к экологической программе Xiaomi и стала ведущей компанией по производству умной бытовой техники.
+          </p>
+        </div>
+        <div class="about__slider-shadow about__slider-shadow_bottom"></div>
       </div>
     </section>
   </main>
@@ -109,6 +119,9 @@
   </footer>
 
   <!-- Скрипты -->
+  <!-- Плагины -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="./plugins/jquery.mCustomScrollbar.concat.min.js"></script>
   <!-- Данные о карточках -->
   <script src="./js/cleanersData.js"></script>
 
@@ -118,6 +131,7 @@
   <script src="./js/components/ChoiceBlock.js"></script>
   <script src="./js/components/Slider.js"></script>
   <script src="./js/components/Card.js"></script>
+  <script src="./js/components/About.js"></script>
 
   <!-- Работа -->
   <script src="./js/main.js"></script>

@@ -40,3 +40,10 @@ cleanersArrayOfObjects.forEach((item) => {
   item.buyButton.addEventListener('click', () => { popup.changeIsOpen(item.props.linksOnMarkets) }); // КУПИТЬ
   item.characteristicsButton.addEventListener('click', () => { item.changeIsOpen() }); // ХАРАКТЕРИСТИКИ
 });
+
+
+
+// Добавление скроллбара через плагин и JQuery
+(function($){
+  $(".about__vertical-slider").mCustomScrollbar();
+})(jQuery);
