@@ -308,3 +308,12 @@ const cleaners = [
     ]
   },
 ];
+
+const marketLinks = {
+  mvideo: 'https://www.mvideo.ru/pylesosy-i-aksessuary-2428/pylesosy-2438/f/brand=dreame',
+  ozon: 'https://www.ozon.ru/seller/marvel-11777/pylesosy-i-aksessuary-10648/dreame-170812827/',
+  fotosklad: 'https://www.fotosklad.ru/catalog/pylesosy/?brand_166647=Y',
+  dns: 'https://www.dns-shop.ru/catalog/d79905f0113ab6df/vertikalnye-pylesosy/?brand=dreame',
+  rbt: 'https://spb.rbt.ru/cat/tehnika_dlya_doma/vertikalnye_pylesosy/dreame/',
+  aliexpress: 'https://aliexpress.ru/category/202000075/vacuum-cleaners.html?trafficChannel=main&catName=vacuum-cleaners&CatId=202000075&ltype=wholesale&SortType=default&brandValueIds=90211084&isrefine=y&page=1',
+};

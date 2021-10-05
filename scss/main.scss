@@ -111,10 +111,10 @@ $custom-grey: #f7f7f7;
 
   &__links-container {
     margin-top: 25px;
-    display: flex;
-    flex-direction: column;
+    display: flex;flex-wrap: wrap;
     row-gap: 20px;
     column-gap: 20px;
+    justify-content: center;
   }
 
   &__link {
@@ -207,16 +207,18 @@ $custom-grey: #f7f7f7;
     list-style: none;
     display: flex;
     justify-content: space-between;
+
+    &-item { 
+      text-transform: uppercase; 
+      cursor: pointer; 
+      transition: opacity $animation-speed;
+      &:hover {  opacity: 0.6; }
+    }
   }
 
   &__nav-link {
     color: inherit;
-    text-transform: uppercase;
     text-decoration: none;
-    transition: opacity $animation-speed;
-  }
-  &__nav-link:hover {
-    opacity: 0.6;
   }
 
   &__burger {

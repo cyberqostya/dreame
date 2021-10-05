@@ -47,3 +47,8 @@ cleanersArrayOfObjects.forEach((item) => {
 (function($){
   $(".about__vertical-slider").mCustomScrollbar();
 })(jQuery);
+
+
+
+// При клике на кнопку "Где купить"
+headerBlock.whereToBuyButton.addEventListener('click', () => { popup.changeIsOpen(marketLinks) });

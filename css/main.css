@@ -87,9 +87,10 @@ html {
 .popup__links-container {
   margin-top: 25px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   row-gap: 20px;
   column-gap: 20px;
+  justify-content: center;
 }
 .popup__link {
   display: block;
@@ -170,14 +171,17 @@ html {
   display: flex;
   justify-content: space-between;
 }
-.header__nav-link {
-  color: inherit;
+.header__nav-list-item {
   text-transform: uppercase;
-  text-decoration: none;
+  cursor: pointer;
   transition: opacity 0.4s;
 }
-.header__nav-link:hover {
+.header__nav-list-item:hover {
   opacity: 0.6;
+}
+.header__nav-link {
+  color: inherit;
+  text-decoration: none;
 }
 .header__burger {
   width: 49px;
