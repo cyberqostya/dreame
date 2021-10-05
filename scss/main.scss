@@ -834,6 +834,9 @@ $custom-grey: #f7f7f7;
     max-width: 480px;
     overflow-y: scroll;
     position: relative;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
 
     & .about__title:first-child { margin-top: $offset; }
     & .about__text:last-child { margin-bottom: $offset; }
@@ -914,7 +917,7 @@ $custom-grey: #f7f7f7;
   }
 
   &__right-side {
-    width: 65%;
+    width: 47%;
     display: flex;
     flex-wrap: wrap;
   }
